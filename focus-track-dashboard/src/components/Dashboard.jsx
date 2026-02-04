@@ -4,9 +4,9 @@ import ChartView from "./ChartView";
 
 function Dashboard() {
   const [logs, setLogs] = useState([]);
-
+  const userId = "demo-user";
   useEffect(() => {
-    api.get(`/report/${userId}`)
+    api.get(`report/${userId}`)
       .then(res => setLogs(res.data))
       .catch(err => console.error(err));
   }, []);

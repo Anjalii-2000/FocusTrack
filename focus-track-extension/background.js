@@ -33,13 +33,13 @@ function saveTime(site, timeSpent) {
   });
 
   // Save to backend (MongoDB)
-  fetch("http://localhost:5000/api/log", {
+  fetch("https://focustrack-p4uc.onrender.com/api/log", { 
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      userId: "currentUser",
+      userId: "demo-user",
       site: site,
       timeSpent: timeSpent
     })
