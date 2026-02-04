@@ -1,27 +1,48 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const http = require("http");              
+const { Server } = require("socket.io");   
+
 const PORT = process.env.PORT || 5000;
 const activityRoutes = require("./routes/activityRoutes");
 
 const app = express();
+const server = http.createServer(app);     
 
+app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("FocusTrack™ Server is Running");
 });
 
-mongoose.connect("mongodb://127.0.0.1:27017/focustrack")
-  .then(() => console.log("MongoDB connected"))
-  .catch(err => console.error(err));
+/* MongoDB connection */
+mongoose
+  .connect(process.env.MONGO_URI || "mongodb+srv://anjalibhardwaj450_db_user:OJg81oYaAVIdZ2Go@cluster0.p49ugnj.mongodb.net/")
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.error(err));
 
+/* Socket.IO */
 const io = new Server(server, {
-  cors: { origin: "*" },
-  methods: ["GET", "POST"]
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
 });
+
+io.on("connection", (socket) => {
+  console.log("User connected:", socket.id);
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected:", socket.id);
+  });
+});
+
+/* Routes */
 app.use("/api", activityRoutes);
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+/* Start server */
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
