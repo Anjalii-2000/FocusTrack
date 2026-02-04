@@ -39,7 +39,7 @@ function saveTime(site, timeSpent) {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      userId: "demo-user-1",
+      userId: "currentUser",
       site: site,
       timeSpent: timeSpent
     })

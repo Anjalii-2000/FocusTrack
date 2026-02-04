@@ -6,7 +6,7 @@ function Dashboard() {
   const [logs, setLogs] = useState([]);
 
   useEffect(() => {
-    api.get("/report/demo-user-1")
+    api.get(`/report/${userId}`)
       .then(res => setLogs(res.data))
       .catch(err => console.error(err));
   }, []);
